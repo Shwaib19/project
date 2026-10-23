@@ -1,19 +1,13 @@
 import { Controller, Post } from '@nestjs/common';
 import { LoginRequest } from './dto/login.request.js';
-import { AuthService } from '../../auth.service.js';
+import { LoginHandler } from './login.handler.js';
 
 @Controller()
 export class LoginController {
-  constructor( private readonly authService: AuthService ) {}
+  constructor(private readonly loginHandler: LoginHandler) {}
 
   @Post('/login')
   async Login(loginRequest: LoginRequest): Promise<string> {
-
-
-    // Call the verifyPassword method from AuthService
-    await this.authService.verifyPassword(loginRequest.Password, 'hashedPassword');
-
-    // still need to add logic to check if the user exists and return appropriate response
-    return `Login successful for user: ${loginRequest.Email}`;
+    return await this.loginHandler.handle(loginRequest);
   }
 }

@@ -1,15 +1,13 @@
 import { Controller, Post } from '@nestjs/common';
+import { RegisterHandler } from './register.handler.js';
 import { RegisterRequest } from './dto/register.request.js';
-import { AuthService } from '../../auth.service.js';
 
 @Controller()
 export class RegisterController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly registerHandler: RegisterHandler) {}
 
   @Post('/register')
-  Register(registerRequest: RegisterRequest): string {
-    // Call the hashPassword method from AuthService
-    var hashedPassword = this.authService.hashPassword(registerRequest.Password);
-    return `Registration successful for user: ${registerRequest.Email}`;
+  async Register(registerRequest: RegisterRequest): Promise<string> {
+    return await this.registerHandler.Handle(registerRequest);
   }
 }

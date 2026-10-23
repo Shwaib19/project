@@ -12,7 +12,7 @@ import { RouterModule } from '@nestjs/core';
         module: AuthModule,
       },
     ]),
-
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
