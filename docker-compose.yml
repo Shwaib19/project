@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: todonest-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-todonest}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-todonest}
+      POSTGRES_DB: ${DB_NAME:-todonest}
+    ports:
+      - '${DB_PORT:-5432}:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    healthcheck:
+      test:
+        ['CMD-SHELL', 'pg_isready -U ${DB_USER:-todonest} -d ${DB_NAME:-todonest}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  postgres-data:
