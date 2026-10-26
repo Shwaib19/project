@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { RegisterHandler } from './register.handler.js';
 import { RegisterRequest } from './dto/register.request.js';
 
@@ -7,7 +7,7 @@ export class RegisterController {
   constructor(private readonly registerHandler: RegisterHandler) {}
 
   @Post('/register')
-  async Register(registerRequest: RegisterRequest): Promise<string> {
+  async Register(@Body() registerRequest: RegisterRequest): Promise<string> {
     return await this.registerHandler.Handle(registerRequest);
   }
 }
